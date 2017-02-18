@@ -25,8 +25,9 @@ import Data.Time.Clock
 -- | Given a ['UTCTime'], a 'UTCTime', and a 'DiffTime', filter out things in
 -- the original list that are within the 'DiffTime' range of the given
 -- 'UTCTime'.
-filterTimes :: [UTCTime] -> UTCTime -> DiffTime -> [UTCTime]
-filterTimes ts u d = filter (\t -> abs (diffUTCTime t u) - realToFrac d < 0) ts
+filterTimes :: [a] -> (a -> UTCTime) -> UTCTime -> DiffTime -> [a]
+filterTimes ts f u d =
+  filter (\t -> abs (diffUTCTime (f t) u) - realToFrac d < 0) ts
 
 -- | Generate a center point \"chunk\" for filtering.
 --

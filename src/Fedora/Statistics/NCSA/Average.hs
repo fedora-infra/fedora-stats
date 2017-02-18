@@ -10,6 +10,7 @@
 ----------------------------------------------------------------------------
 module Fedora.Statistics.NCSA.Average where
 
+import Data.Time.Clock
 import Data.Time.Calendar
 import Fedora.Statistics.NCSA.Time
 import Fedora.Statistics.NCSA.Types
@@ -19,11 +20,14 @@ data DateEntries =
               , dateEntriesEntries :: [LogEntry]
               } deriving (Eq, Ord, Show)
 
--- | Break up the requests into 10-minute chunks per day.
---groupRequests :: [LogEntry] ->
-
--- | Compute the average number of requests for a given hour of the day in 10
--- minute chunks.
---
--- We want to look at 10 minute chunks, so we go by fives, and add/subtract
--- 5 minutes each time, and filter the requests based on that.
+-- |
+-- Given a list of log entries and an hour, we want to break up that hour into
+-- five minute chunks and then generate a list of log entries in each of those
+-- chunks.
+groupByFiveMinuteChunks
+  :: [LogEntry]
+  -> (DiffTime -> DiffTime -> UTCTime)
+  -> [[LogEntry]]
+groupByFiveMinuteChunks entries f =
+  let chunks = fiveMinuteChunks f
+  in fmap (\c -> filterTimes entries time c 150) chunks

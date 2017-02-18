@@ -65,7 +65,7 @@ parseReqTime = do
   char '['
   timestamp <- takeWhile1 (\x -> x /= ']')
   char ']'
-  let fmtString = "%d/%b/%Y:%H:%M:%S +0000"
+  let fmtString = "%d/%b/%Y:%H:%M:%S %z"
   return (parseTimeOrError True defaultTimeLocale fmtString (B.unpack timestamp))
 
 parseRequest :: Parser Request

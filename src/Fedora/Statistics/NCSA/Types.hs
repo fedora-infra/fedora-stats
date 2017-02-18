@@ -34,3 +34,9 @@ data Request =
           , path    :: B.ByteString
           , version :: B.ByteString
           } deriving (Eq, Ord, Show)
+
+data DayReport =
+  DayReport { dayReportAvg :: Integer
+            , dayReportMin :: Integer
+            , dayReportMax :: Integer
+            } deriving (Eq, Ord, Show)
