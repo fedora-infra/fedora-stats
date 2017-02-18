@@ -1,0 +1,41 @@
+name:                staskell
+version:             0.1.0.0
+synopsis:            Apache/NCSA Combined Log analytics and parsing
+-- description:
+license:             MIT
+license-file:        LICENSE
+author:              Ricky Elrod
+maintainer:          relrod@redhat.com
+copyright:           (c) 2017 Red Hat, Inc.
+category:            Statistics
+build-type:          Simple
+cabal-version:       >= 1.10
+
+library
+  exposed-modules:     Fedora.Statistics.NCSA
+                     , Fedora.Statistics.NCSA.Average
+                     , Fedora.Statistics.NCSA.Parser
+                     , Fedora.Statistics.NCSA.Time
+                     , Fedora.Statistics.NCSA.Types
+  build-depends:       base >= 4 && < 5
+                     , attoparsec >= 0.12 && < 0.14
+                     , bytestring >= 0.10 && < 0.11
+                     , time >= 1.4 && < 2
+                     , old-locale >= 1 && < 2
+                     , text >= 1 && < 2
+  hs-source-dirs:      src
+  default-language:    Haskell2010
+  ghc-options:         -Wall -O2
+
+-- Generate 5-minute moving averages (min, median, max) for a given log.
+executable 5min-averages-for-log
+  main-is:             5min-averages-for-log.hs
+  ghc-options:        -threaded -rtsopts -with-rtsopts=-N9 -O2 -Wall
+  build-depends:       base >= 4 && < 5
+                     , attoparsec >= 0.12 && < 0.14
+                     , bytestring >= 0.10 && < 0.11
+                     , time >= 1.4 && < 2
+                     , old-locale >= 1 && < 2
+                     , text >= 1 && < 2
+                     , staskell
+  default-language:    Haskell2010
