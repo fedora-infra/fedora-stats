@@ -19,15 +19,23 @@
 ----------------------------------------------------------------------------
 module Fedora.Statistics.NCSA.Time where
 
+import Control.Applicative
+import Control.Monad
 import Data.Time.Calendar (Day)
 import Data.Time.Clock
 
 -- | Given a ['UTCTime'], a 'UTCTime', and a 'DiffTime', filter out things in
 -- the original list that are within the 'DiffTime' range of the given
 -- 'UTCTime'.
-filterTimes :: [a] -> (a -> UTCTime) -> UTCTime -> DiffTime -> [a]
+filterTimes
+  :: MonadPlus m
+  => m a
+  -> (a -> UTCTime)
+  -> UTCTime
+  -> DiffTime
+  -> m a
 filterTimes ts f u d =
-  filter (\t -> abs (diffUTCTime (f t) u) - realToFrac d < 0) ts
+  mfilter (\t -> abs (diffUTCTime (f t) u) - realToFrac d < 0) ts
 
 -- | Generate a center point \"chunk\" for filtering.
 --

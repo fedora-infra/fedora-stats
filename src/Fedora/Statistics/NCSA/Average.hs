@@ -12,6 +12,7 @@ module Fedora.Statistics.NCSA.Average where
 
 import Data.Time.Clock
 import Data.Time.Calendar
+import qualified Data.Vector as V
 import Fedora.Statistics.NCSA.Time
 import Fedora.Statistics.NCSA.Types
 
@@ -25,9 +26,9 @@ data DateEntries =
 -- five minute chunks and then generate a list of log entries in each of those
 -- chunks.
 groupByFiveMinuteChunks
-  :: [LogEntry]
+  :: V.Vector LogEntry
   -> (DiffTime -> DiffTime -> UTCTime)
-  -> [[LogEntry]]
+  -> [V.Vector LogEntry]
 groupByFiveMinuteChunks entries f =
   let chunks = fiveMinuteChunks f
   in fmap (\c -> filterTimes entries time c 150) chunks

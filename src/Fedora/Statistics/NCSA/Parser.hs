@@ -16,13 +16,14 @@ import Control.Applicative
 import Data.Attoparsec.ByteString.Char8 as A
 import qualified Data.ByteString.Lazy.Char8 as BL
 import qualified Data.ByteString.Char8 as B
-import Data.Either (rights)
+import Data.Either (isRight)
 import Data.Time
+import qualified Data.Vector as V
 import Fedora.Statistics.NCSA.Types
 
 #if MIN_VERSION_time(1,5,0)
 #else
-import System.Locale (defaultTimeLocale)
+import System.Locale
 
 parseTimeOrError  :: ParseTime t => Bool -> TimeLocale -> String -> String -> t
 parseTimeOrError _ = readTime
@@ -132,8 +133,11 @@ parseLogEntry = do
     referrer'
     useragent'
 
-parseFileLines :: (Parser LogEntry) -> [BL.ByteString] -> [LogEntry]
-parseFileLines parser rawLogLines = rights $ map (parseFileLine parser) rawLogLines
+parseFileLines :: (Parser LogEntry) -> V.Vector BL.ByteString -> V.Vector LogEntry
+parseFileLines parser rawLogLines =
+  vRights $ fmap (parseFileLine parser) rawLogLines
+  where
+    vRights = fmap (\(Right x) -> x) . V.filter isRight
 
 parseFileLine :: (Parser LogEntry) -> BL.ByteString -> Either String LogEntry
 parseFileLine p logFileLine = parseOnly p ln

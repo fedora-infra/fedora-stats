@@ -1,4 +1,5 @@
 {-# LANGUAGE CPP #-}
+{-# OPTIONS_GHC -funbox-strict-fields  #-}
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  Fedora.Statistics.NCSA.Types
@@ -30,13 +31,13 @@ data LogEntry =
            } deriving (Eq, Ord, Show)
 
 data Request =
-  Request { method  :: B.ByteString
-          , path    :: B.ByteString
-          , version :: B.ByteString
+  Request { method  :: !B.ByteString
+          , path    :: !B.ByteString
+          , version :: !B.ByteString
           } deriving (Eq, Ord, Show)
 
 data DayReport =
-  DayReport { dayReportAvg :: Integer
-            , dayReportMin :: Integer
-            , dayReportMax :: Integer
+  DayReport { dayReportAvg :: !Integer
+            , dayReportMin :: !Integer
+            , dayReportMax :: !Integer
             } deriving (Eq, Ord, Show)
