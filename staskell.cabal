@@ -31,7 +31,7 @@ library
 -- Generate 5-minute moving averages (min, median, max) for a given log.
 executable 5min-averages-for-log
   main-is:             5min-averages-for-log.hs
-  ghc-options:        -threaded -rtsopts -with-rtsopts=-N9 -O2 -Wall
+  ghc-options:         -O2 -Wall
   build-depends:       base >= 4 && < 5
                      , attoparsec >= 0.12 && < 0.14
                      , bytestring >= 0.10 && < 0.11
@@ -39,5 +39,19 @@ executable 5min-averages-for-log
                      , old-locale >= 1 && < 2
                      , text >= 1 && < 2
                      , vector >= 0.10 && < 0.13
+                     , staskell
+  default-language:    Haskell2010
+
+executable staskell-bench
+  main-is:             bench.hs
+  ghc-options:         -O2 -Wall
+  build-depends:       base >= 4 && < 5
+                     , attoparsec >= 0.12 && < 0.14
+                     , bytestring >= 0.10 && < 0.11
+                     , time >= 1.4 && < 2
+                     , old-locale >= 1 && < 2
+                     , text >= 1 && < 2
+                     , vector >= 0.10 && < 0.13
+                     , criterion
                      , staskell
   default-language:    Haskell2010
