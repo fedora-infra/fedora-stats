@@ -1,7 +1,10 @@
+{-# LANGUAGE CPP #-}
 -- | Benchmark ALL THE THINGS
 module Main where
 
+#if __GLASGOW_HASKELL__ < 710
 import Control.Applicative
+#endif
 import Criterion.Main
 import qualified Data.ByteString.Lazy.Char8 as BL
 import Data.Time.Calendar
