@@ -4,7 +4,7 @@
 -- Copyright   :  (C) 2017 Red Hat, Inc.
 -- License     :  MIT (see the file LICENSE)
 --
--- Maintainer  :  Ricky ELrod <relrod@redhat.com>
+-- Maintainer  :  Ricky Elrod <relrod@redhat.com>
 -- Stability   :  provisional
 -- Portability :  non-portable
 ----------------------------------------------------------------------------
