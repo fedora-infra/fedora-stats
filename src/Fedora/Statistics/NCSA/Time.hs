@@ -21,8 +21,11 @@ module Fedora.Statistics.NCSA.Time where
 
 import Control.Applicative
 import Control.Monad
-import Data.Time.Calendar (Day)
-import Data.Time.Clock
+import Data.AffineSpace
+import Data.AdditiveGroup
+import Data.Thyme.Calendar (Day)
+import Data.Thyme.Clock
+import Data.Thyme.Time
 
 -- | Given a ['UTCTime'], a 'UTCTime', and a 'DiffTime', filter out things in
 -- the original list that are within the 'DiffTime' range of the given
@@ -32,10 +35,10 @@ filterTimes
   => m a
   -> (a -> UTCTime)
   -> UTCTime
-  -> DiffTime
+  -> NominalDiffTime
   -> m a
 filterTimes ts f u d =
-  mfilter (\t -> abs (diffUTCTime (f t) u) - realToFrac d < 0) ts
+  mfilter (\t -> abs ((f t) .-. u) - realToFrac d < 0) ts
 
 -- | Generate a center point \"chunk\" for filtering.
 --
@@ -48,7 +51,7 @@ genChunk
   -> DiffTime -- ^ The lower bound of the chunk
   -> DiffTime -- ^ The upper bound of the chunk
   -> UTCTime -- ^ A 'UTCTime' to use as the chunk
-genChunk d hr lb ub = UTCTime d ((3600 * hr) + (((ub + lb) / 2) * 60))
+genChunk d hr lb ub = mkUTCTime d ((3600 * hr) + (((ub + lb) / 2) * 60))
 
 -- | Generate a list of __center points__ used for filtering times.
 --

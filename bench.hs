@@ -7,8 +7,9 @@ import Control.Applicative
 #endif
 import Criterion.Main
 import qualified Data.ByteString.Lazy.Char8 as BL
-import Data.Time.Calendar
-import Data.Time.Clock
+import Data.Thyme.Calendar
+import Data.Thyme.Clock
+import Data.Thyme.Time
 import qualified Data.Vector as V
 import Fedora.Statistics.NCSA
 
@@ -32,12 +33,15 @@ sampleLines = BL.pack
 entries :: V.Vector LogEntry
 entries = parseFileLines parseLogEntry . V.fromList . BL.lines $ sampleLines
 
+firstEntry :: LogEntry
+firstEntry = V.head entries
+
 twentyOne :: (DiffTime -> DiffTime -> UTCTime)
 twentyOne = genChunk (fromGregorian 2017 01 23) 21
 
 -- | 1h 23m
 chunk :: UTCTime
-chunk = UTCTime (fromGregorian 2017 01 23) 76980
+chunk = mkUTCTime (fromGregorian 2017 01 23) 76980
 
 main :: IO ()
 main =
@@ -51,5 +55,6 @@ main =
       bench "genChunk" $ whnf (genChunk (fromGregorian 2017 01 23)) 21
     , bench "fiveMinuteChunks" $ whnf fiveMinuteChunks twentyOne
     , bench "filterTimes" $ whnf (filterTimes entries time chunk) 150
+    , bench "diffUTCTime" $ whnf (diffUTCTime (time firstEntry)) chunk
     ]
   ]

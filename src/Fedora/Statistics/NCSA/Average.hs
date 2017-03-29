@@ -10,8 +10,8 @@
 ----------------------------------------------------------------------------
 module Fedora.Statistics.NCSA.Average where
 
-import Data.Time.Clock
-import Data.Time.Calendar
+import Data.Thyme.Clock
+import Data.Thyme.Calendar
 import qualified Data.Vector as V
 import Fedora.Statistics.NCSA.Time
 import Fedora.Statistics.NCSA.Types

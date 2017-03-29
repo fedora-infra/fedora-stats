@@ -15,7 +15,7 @@
 module Fedora.Statistics.NCSA.Types where
 
 import qualified Data.ByteString.Char8 as B
-import Data.Time
+import Data.Thyme
 
 -- | This is a type which describes a log entry that has been parsed.
 data LogEntry =

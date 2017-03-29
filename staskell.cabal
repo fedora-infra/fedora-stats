@@ -20,10 +20,11 @@ library
   build-depends:       base >= 4 && < 5
                      , attoparsec >= 0.12 && < 0.14
                      , bytestring >= 0.10 && < 0.11
-                     , time >= 1.4 && < 2
+                     , thyme >= 0.3 && < 0.4
                      , old-locale >= 1 && < 2
                      , text >= 1 && < 2
                      , vector >= 0.10 && < 0.13
+                     , vector-space >= 0.8 && < 1
   hs-source-dirs:      src
   default-language:    Haskell2010
   ghc-options:         -Wall -O2
@@ -35,7 +36,7 @@ executable 5min-averages-for-log
   build-depends:       base >= 4 && < 5
                      , attoparsec >= 0.12 && < 0.14
                      , bytestring >= 0.10 && < 0.11
-                     , time >= 1.4 && < 2
+                     , thyme >= 0.3 && < 0.4
                      , old-locale >= 1 && < 2
                      , text >= 1 && < 2
                      , vector >= 0.10 && < 0.13
@@ -48,7 +49,7 @@ executable staskell-bench
   build-depends:       base >= 4 && < 5
                      , attoparsec >= 0.12 && < 0.14
                      , bytestring >= 0.10 && < 0.11
-                     , time >= 1.4 && < 2
+                     , thyme >= 0.3 && < 0.4
                      , old-locale >= 1 && < 2
                      , text >= 1 && < 2
                      , vector >= 0.10 && < 0.13

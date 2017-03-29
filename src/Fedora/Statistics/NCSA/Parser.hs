@@ -17,17 +17,10 @@ import Data.Attoparsec.ByteString.Char8 as A
 import qualified Data.ByteString.Lazy.Char8 as BL
 import qualified Data.ByteString.Char8 as B
 import Data.Either (isRight)
-import Data.Time
+import Data.Thyme
 import qualified Data.Vector as V
 import Fedora.Statistics.NCSA.Types
-
-#if MIN_VERSION_time(1,5,0)
-#else
-import System.Locale
-
-parseTimeOrError  :: ParseTime t => Bool -> TimeLocale -> String -> String -> t
-parseTimeOrError _ = readTime
-#endif
+import System.Locale (defaultTimeLocale)
 
 -- 97.70.28.123 - - [28/Jan/2017:04:02:09 +0000] "GET /static/hotspot.txt HTTP/1.1" 200 2 "-" "-"
 
@@ -67,7 +60,7 @@ parseReqTime = do
   timestamp <- takeWhile1 (\x -> x /= ']')
   char ']'
   let fmtString = "%d/%b/%Y:%H:%M:%S %z"
-  return (parseTimeOrError True defaultTimeLocale fmtString (B.unpack timestamp))
+  return (readTime defaultTimeLocale fmtString (B.unpack timestamp))
 
 parseRequest :: Parser Request
 parseRequest = do
