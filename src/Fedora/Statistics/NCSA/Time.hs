@@ -22,8 +22,6 @@ module Fedora.Statistics.NCSA.Time where
 import Control.Applicative
 import Control.Monad
 import Data.AffineSpace
-import Data.AdditiveGroup
-import Data.Thyme.Calendar (Day)
 import Data.Thyme.Clock
 import Data.Thyme.Time
 
@@ -38,7 +36,7 @@ filterTimes
   -> NominalDiffTime
   -> m a
 filterTimes ts f u d =
-  mfilter (\t -> abs ((f t) .-. u) - realToFrac d < 0) ts
+  mfilter (\t -> abs ((f t) .-. u) - d < 0) ts
 
 -- | Generate a center point \"chunk\" for filtering.
 --
