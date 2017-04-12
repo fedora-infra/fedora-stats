@@ -5,16 +5,25 @@ module Main where
 import Control.Applicative
 #endif
 import qualified Data.ByteString.Lazy.Char8 as BL
-import Data.Time.Calendar
-import Data.Time.Clock
+import Data.Thyme.Clock
+import Data.Thyme.Time
 import qualified Data.Vector as V
 import Fedora.Statistics.NCSA
 
-hour21 :: DiffTime -> DiffTime -> UTCTime
-hour21 = genChunk (fromGregorian 2017 01 23) 21
+hours :: [DiffTime -> DiffTime -> UTCTime]
+hours = fmap (genChunk (fromGregorian 2017 03 23) . fromIntegral) [0..23::Int]
+
+average :: (Fractional a, Integral a1, Foldable t) => t a1 -> a
+average x = fromIntegral (sum x) / fromIntegral (length x)
 
 main :: IO ()
 main = do
-  log' <- V.fromList . BL.lines <$> BL.readFile "/home/ricky/dev/fedora/haskell/staskell/sample-logs/1mil.log"
+  log' <- V.fromList . BL.lines <$> BL.readFile "/home/ricky/devel/fedora/staskell/hotspot-ten-percent.log"
   let entries = parseFileLines parseLogEntry log'
-  print $ fmap V.length (groupByFiveMinuteChunks entries hour21)
+      groups = hours >>= groupByFiveMinuteChunks entries
+      groupsLen = filter (/= 0) (fmap length groups)
+      groupsAvg = average groupsLen
+
+      --lengths = fmap V.length grouped
+  putStrLn . show $ groupsAvg
+
